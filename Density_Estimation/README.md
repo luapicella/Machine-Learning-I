@@ -18,11 +18,11 @@ The purpose of this section is to estimate the parameters of a Gaussian distribu
 
 
 
-![Schermata da 2021-03-30 19-18-45](./image/Schermata da 2021-03-30 19-18-45.png)
+![Schermata da 2021-03-30 19-18-45](/image/Schermata da 2021-03-30 19-18-45.png)
 
 #### GAU_logpdf(x, mu, v)
 
-![Schermata da 2021-03-30 19-19-05](./image/Schermata da 2021-03-30 19-19-05.png)
+![Schermata da 2021-03-30 19-19-05](image/Schermata da 2021-03-30 19-19-05.png)
 
 The above expression for the total probability is actually quite a pain to differentiate, so it is almost always simplified by taking the natural logarithm of the expression. This is absolutely fine because the natural logarithm is a monotonically increasing function. This means that if the value on the x-axis increases, the value on the y-axis also increases. This is important because it ensures that the maximum value of the log of the probability occurs at the same point as the original probability function. Therefore we can work with the simpler log-likelihood instead of the original likelihood.
 
