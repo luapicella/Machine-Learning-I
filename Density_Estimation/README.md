@@ -12,7 +12,7 @@ The purpose of this section is to estimate the parameters of a Gaussian distribu
 
 
 
-![plot](./image/Schermata da 2021-03-30 19-17-43.png)
+![plot](https://github.com/luapicella/Machine-Learning-I/blob/main/Density_Estimation/image/Schermata%20da%202021-03-30%2019-51-59.png)
 
 #### computeLikelihood(dataset, mu, var)
 
