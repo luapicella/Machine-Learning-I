@@ -12,7 +12,7 @@ The purpose of this section is to estimate the parameters of a Gaussian distribu
 
 
 
-![Schermata da 2021-03-30 19-17-43](./image/Schermata da 2021-03-30 19-17-43.png)
+![plot](./image/Schermata da 2021-03-30 19-17-43.png)
 
 #### computeLikelihood(dataset, mu, var)
 
