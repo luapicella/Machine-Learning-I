@@ -8,6 +8,7 @@ Created on Sat Apr  3 17:09:19 2021
 
 
 import numpy as np
+from scipy.special import logsumexp
 from sklearn import datasets
 
 def load_iris():
@@ -29,46 +30,75 @@ def split_db_2to1(D, L, seed=0):
     LTE = L[idxTest]
     return (DTR, LTR), (DTE, LTE)
 
-def mu(dataset):
-    '''Function the compute the mean matrix'''
-    return np.mean(dataset,axis=1)
-
-def sigma(dataset):
-    '''Function that compute the covariance matrix'''
-    diff = dataset-(mu(dataset).reshape(dataset.shape[0],1))
-    return np.dot(diff, diff.T)/dataset.shape[1]
+class GuassianClassifier:
+    """Gaussian Classifier"""
     
-def computeMaximumLikelihoodEstimates(dataset,label):
-    '''Function that compute the parameters of each class that maximize likelihood'''
-    D0 = dataset[:, label==0]
-    D1 = dataset[:, label==1]
-    D2 = dataset[:, label==2]
+    def multivariate_normal(self, x, mu, sigma):
+        ''' Function that compute the class conditional probabilities'''
+        return -(x.shape[0]/2)*np.log(2*np.pi)-(1/2)*(np.linalg.slogdet(sigma)[1])-(1/2)*((np.dot((x-mu).T, np.linalg.inv(sigma))).T*(x-mu)).sum(axis=0)
+
     
-    mu0 = mu(D0)
-    mu1 = mu(D1)
-    mu2 = mu(D2)
-
-    sigma0 = sigma(D0)
-    sigma1 = sigma(D1)
-    sigma2 = sigma(D2)
-    
-    return (mu0,sigma0), (mu1,sigma1), (mu2,sigma2) 
-
-def logpdf_GAU_ND(x, mu, sigma):
-    ''' Function that compute the class conditional probabilities'''
-    return -(x.shape[0]/2)*np.log(2*np.pi)-(1/2)*(np.linalg.slogdet(sigma)[1])-(1/2)*((np.dot((x-mu).T, np.linalg.inv(sigma))).T*(x-mu)).sum(axis=0)
-
+    def train(self,X,Y):
         
+        #class-conditional density - MLE estimate
+        self.mean_0 = np.mean( X[:, Y==0], axis=1) .reshape((X.shape[0],1))
+        self.mean_1 = np.mean( X[:, Y==1], axis=1) .reshape((X.shape[0],1))
+        self.mean_2 = np.mean( X[:, Y==2], axis=1) .reshape((X.shape[0],1))
+        self.sigma_0 = np.cov( X[:, Y==0])
+        self.sigma_1 = np.cov( X[:, Y==1])
+        self.sigma_2 = np.cov( X[:, Y==2])
+        
+        #class prior
+        #self.pi_0 =  Y[Y==0].shape[0]/Y.shape[0]
+        #self.pi_1 =  Y[Y==1].shape[0]/Y.shape[0]
+        #self.pi_2 =  Y[Y==2].shape[0]/Y.shape[0]
+        
+        
+        print('f')
+        
+        
+    def predict(self,X):
+            
+        #multivariate class-conditional density function
+        self.prob_0 = self.multivariate_normal(X,self.mean_0,self.sigma_0) .reshape((1,X.shape[1])) + np.log(1/3)
+        self.prob_1 = self.multivariate_normal(X,self.mean_1,self.sigma_1). reshape((1,X.shape[1])) + np.log(1/3)
+        self.prob_2 = self.multivariate_normal(X,self.mean_2,self.sigma_2). reshape((1,X.shape[1])) + np.log(1/3)
+        
+        self.SJoint = np.zeros((3,X.shape[1]))
+        self.SJoint[0] =  self.prob_0
+        self.SJoint[1] =  self.prob_1
+        self.SJoint[2] =  self.prob_2
+        
+        self.marginal = logsumexp(self.SJoint)
+    
+        self.SPost = self.SJoint-self.marginal
+        
+        ret = self.SPost.argmax(axis=0)
+        
+        return ret 
+    
+    
+    
+def accuracy(Y_test, Y_testPred):
+        arr = Y_test == Y_testPred
+        correct = np.sum(arr)
+        accuracy = correct / Y_test.shape[0]
+        return accuracy
+
+def error(Y_test, Y_testPred):
+    return 1 - accuracy(Y_test, Y_testPred)
+    
 
 if __name__ == "__main__":
     D, L = load_iris()
     TR, TE = split_db_2to1(D,L)
-    par = computeMaximumLikelihoodEstimates(TR[0], TR[1])
-    #compute the class-conditional probabilities in a score matrix
-    score = np.zeros((3,50))
-    for i in range(3):
-        x = logpdf_GAU_ND(TE[0],par[i][0].reshape(4,1), par[i][1])
-        score[i] = x
+    classif = GuassianClassifier()
+    classif.train(TR[0], TR[1])
+    pred = classif.predict(TE[0])
+    acc = accuracy(TE[1],pred)
+    err = error(TE[1],pred)
+    
+    
     
     
             
