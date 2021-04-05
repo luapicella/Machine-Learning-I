@@ -36,7 +36,7 @@ class GuassianClassifier:
     def multivariate_normal(self, x, mu, sigma):
         ''' Function that compute the class conditional probabilities'''
         return -(x.shape[0]/2)*np.log(2*np.pi)-(1/2)*(np.linalg.slogdet(sigma)[1])-(1/2)*((np.dot((x-mu).T, np.linalg.inv(sigma))).T*(x-mu)).sum(axis=0)
-
+multivariate class-conditional density function
     
     def train(self,X,Y):
         
@@ -52,17 +52,17 @@ class GuassianClassifier:
         #self.pi_0 =  Y[Y==0].shape[0]/Y.shape[0]
         #self.pi_1 =  Y[Y==1].shape[0]/Y.shape[0]
         #self.pi_2 =  Y[Y==2].shape[0]/Y.shape[0]
-        
-        
-        print('f')
+        self.pi_0 =  1/3
+        self.pi_1 =  1/3
+        self.pi_2 =  1/3
         
         
     def predict(self,X):
             
-        #multivariate class-conditional density function
-        self.prob_0 = self.multivariate_normal(X,self.mean_0,self.sigma_0) .reshape((1,X.shape[1])) + np.log(1/3)
-        self.prob_1 = self.multivariate_normal(X,self.mean_1,self.sigma_1). reshape((1,X.shape[1])) + np.log(1/3)
-        self.prob_2 = self.multivariate_normal(X,self.mean_2,self.sigma_2). reshape((1,X.shape[1])) + np.log(1/3)
+        #multivariate class-conditiona
+        self.prob_0 = self.multivariate_normal(X,self.mean_0,self.sigma_0) .reshape((1,X.shape[1])) + np.log(self.pi_0)
+        self.prob_1 = self.multivariate_normal(X,self.mean_1,self.sigma_1). reshape((1,X.shape[1])) + np.log(self.pi_1)
+        self.prob_2 = self.multivariate_normal(X,self.mean_2,self.sigma_2). reshape((1,X.shape[1])) + np.log(self.pi_2)
         
         self.SJoint = np.zeros((3,X.shape[1]))
         self.SJoint[0] =  self.prob_0
@@ -70,7 +70,6 @@ class GuassianClassifier:
         self.SJoint[2] =  self.prob_2
         
         self.marginal = logsumexp(self.SJoint)
-    
         self.SPost = self.SJoint-self.marginal
         
         ret = self.SPost.argmax(axis=0)
@@ -90,13 +89,14 @@ def error(Y_test, Y_testPred):
     
 
 if __name__ == "__main__":
-    D, L = load_iris()
-    TR, TE = split_db_2to1(D,L)
+    #load dataset iris
+    dataset, label = load_iris()
+    train, test = split_db_2to1(dataset, label)
     classif = GuassianClassifier()
-    classif.train(TR[0], TR[1])
-    pred = classif.predict(TE[0])
-    acc = accuracy(TE[1],pred)
-    err = error(TE[1],pred)
+    classif.train(train[0], train[1])
+    pred = classif.predict(test[0])
+    acc = accuracy(test[1],pred)
+    err = error(test[1],pred)
     
     
     
