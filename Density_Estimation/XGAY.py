@@ -107,14 +107,14 @@ if __name__ == "__main__":
     # used to estimate the ML parameters the fit won't be as good as it is now.
     # We can uncomment the following lines to try, respectively, with datasets
     # of 9000 elements, 5000 elements, 1000 elements and 100 elements.
-    # XGAU1=np.delete(XGAU,range(1000),0)
-    # GaussianDensityEstimation(XGAU1)
-    # XGAU1=np.delete(XGAU,range(5000),0)
-    # GaussianDensityEstimation(XGAU1)
-    # XGAU1=np.delete(XGAU,range(9000),0)
-    # GaussianDensityEstimation(XGAU1)
-    # XGAU1=np.delete(XGAU,range(9900),0)
-    # GaussianDensityEstimation(XGAU1)
+    XGAU1=np.delete(XGAU,range(1000),0)
+    GaussianDensityEstimation(XGAU1)
+    XGAU1=np.delete(XGAU,range(5000),0)
+    GaussianDensityEstimation(XGAU1)
+    XGAU1=np.delete(XGAU,range(9000),0)
+    GaussianDensityEstimation(XGAU1)
+    XGAU1=np.delete(XGAU,range(9900),0)
+    GaussianDensityEstimation(XGAU1)
     MultivariateGaussian()
 
 

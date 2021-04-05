@@ -54,7 +54,41 @@ Then compute the posterior probabilities for each class for each samples as:
 
 ![post](https://github.com/luapicella/Machine-Learning-I/blob/main/Generative_Model_I/Image/post_prob.png)
 
+
+
+In my implementation I have worked with logarithms to reduce numerical errors and for a more agile computation.
+
+
+
+Working with log-densities, we need to compute:
+
+
+
+The joint log-density is given:
+
+
+
+We now need to compute the marginal log-density . We can rewrite the expression as:
+
+
+
+However, we need to take care that computing the exponential terms may result again in numerical errors. A robust method to compute consists in rewriting the sum as:
+
+
+
+where : 
+
+
+
+ This is known as the **log-sum-exp trick**, and is already implemented in *scipy* as *scipy.special.logsumexp*. I have used ```scipy.special.logsumexp(s)```, where *s* is the array that contains the joint log-probabilities for a given sample.
+
+
+
  The predicted label is obtained as the class that has maximum posterior probability
+
+
+
+
 
 
 
