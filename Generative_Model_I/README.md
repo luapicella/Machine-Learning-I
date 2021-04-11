@@ -1,4 +1,4 @@
-# Laboratory 5
+# GENERATIVE MODEL I
 
 In this laboratory we will focus on generative models for classification. On this laboratory we will solve the **IRIS classification task using Gaussian classifiers**.
 
