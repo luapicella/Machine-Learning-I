@@ -1,4 +1,4 @@
-# Laboratory 4
+# DENSITY ESTIMATION
 
 In this lab we will focus on calculating probability densities and ML estimates. The mathematical formulations implemented and the results obtained will be presented below.
 
