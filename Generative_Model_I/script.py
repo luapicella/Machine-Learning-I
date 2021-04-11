@@ -36,7 +36,7 @@ class GuassianClassifier:
     def multivariate_normal(self, x, mu, sigma):
         ''' Function that compute the class conditional probabilities'''
         return -(x.shape[0]/2)*np.log(2*np.pi)-(1/2)*(np.linalg.slogdet(sigma)[1])-(1/2)*((np.dot((x-mu).T, np.linalg.inv(sigma))).T*(x-mu)).sum(axis=0)
-multivariate class-conditional density function
+            
     
     def train(self,X,Y):
         
