@@ -36,7 +36,7 @@ Then we split the dataset into 100 samples for training and 50 samples for evalu
 
 If we know that, for each class, the different components are approximately independent, we can simplify the estimate. The ML solution is:
 
-
+![par](https://github.com/luapicella/Machine-Learning-I/blob/main/Generative_Model_I/Image/Schermata%20da%202021-04-16%2023-49-19.png)
 
 where the mean class matrix is the same and the covariance class matrix is a diagonal matrix.
 
@@ -44,10 +44,9 @@ where the mean class matrix is the same and the covariance class matrix is a dia
 
 If we assume that the covariance matrices of the different classes are tied, the ML solution is:
 
-
+![par](https://github.com/luapicella/Machine-Learning-I/blob/main/Generative_Model_I/Image/Schermata%20da%202021-04-16%2023-54-28.png)
 
 where the mean class matrix is the same and the covariance matrix is the within class covariance.
-
 
 
 
