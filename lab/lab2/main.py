@@ -9,5 +9,10 @@ if __name__ == '__main__':
     plt.rc('ytick', labelsize=16)
 
     D, L = load_iris('./data/iris.csv')
-    plot_hist(D, L)
-    plot_scatter(D, L)
+    plot_hist(D, L, "./images/withMean")
+    plot_scatter(D, L, "./images/withMean")
+
+    mu = D.mean(1)
+    DC = D - mu.reshape((D.shape[0], 1))
+    plot_hist(DC, L, "./images/withoutMean")
+    plot_scatter(DC, L, "./images/withoutMean")

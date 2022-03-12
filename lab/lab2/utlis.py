@@ -27,7 +27,7 @@ def load_iris(filename):
 
     return np.hstack(datalist), np.array(labellist, dtype=np.int32)
 
-def plot_hist(D, L):
+def plot_hist(D, L, folder='./images' ):
 
     D0 = D[:, L==0]
     D1 = D[:, L==1]
@@ -49,11 +49,11 @@ def plot_hist(D, L):
         
         plt.legend()
         plt.tight_layout() # Use with non-default font size to keep axis label inside the figure
-        plt.savefig('./images/hist_%d.pdf' % dIdx)
+        plt.savefig(folder + '/hist_%d.pdf' % dIdx)
 
     plt.show()
 
-def plot_scatter(D, L):
+def plot_scatter(D, L, folder='./images'):
     
     D0 = D[:, L==0]
     D1 = D[:, L==1]
@@ -79,7 +79,7 @@ def plot_scatter(D, L):
         
             plt.legend()
             plt.tight_layout() # Use with non-default font size to keep axis label inside the figure
-            plt.savefig('./images/scatter_%d_%d.pdf' % (dIdx1, dIdx2))
+            plt.savefig(folder + '/scatter_%d_%d.pdf' % (dIdx1, dIdx2))
         plt.show()
 
 
