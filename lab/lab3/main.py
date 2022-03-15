@@ -1,3 +1,4 @@
+from asyncio.log import logger
 from pca import PCA
 
 import numpy as np
@@ -49,16 +50,21 @@ def plot_scatter(D, L, folder='/image'):
 
 
 if __name__ == '__main__':
-    D, L = load_iris('../data/iris.csv')
+    try:
+        D, L = load_iris('../data/iris.csv')
 
-    #compute mean
-    mu = D.mean(axis=1)
-    mu = mu.reshape((mu.size, 1))
-    #center the data
-    DC = D - mu
+        #compute mean
+        mu = D.mean(axis=1)
+        mu = mu.reshape((mu.size, 1))
+        #center the data
+        DC = D - mu
 
-    pca = PCA(n_component=2)
-    pca.fit(DC)
-    DP = pca.trasform(DC)
+        pca = PCA(n_component=6)
+        x = pca.fit(DC)
+        print(x)
+        DP = pca.trasform(DC)
 
-    plot_scatter(DP, L, "./image/PCA2")
+        plot_scatter(DP, L, "./image/PCA2")
+
+    except Exception as e:
+        logger.error(e)
