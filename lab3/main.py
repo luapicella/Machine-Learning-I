@@ -1,5 +1,6 @@
 from asyncio.log import logger
 from pca import PCA
+from lda import LDA
 
 import numpy as np
 import matplotlib
@@ -30,15 +31,15 @@ def load_iris(filename):
 
     return np.hstack(datalist), np.array(labellist, dtype=np.int32)
 
-def plot_scatter(D, L, folder='/image'):
+def plot_scatter(D, L, x='',  y='', folder='/image'):
     
     D0 = D[:, L==0]
     D1 = D[:, L==1]
     D2 = D[:, L==2]
   
     plt.figure()
-    plt.xlabel("PCA1")
-    plt.ylabel("PCA2")
+    plt.xlabel(x)
+    plt.ylabel(y)
     plt.scatter(D0[0, :], D0[1, :], label = 'Setosa')
     plt.scatter(D1[0, :], D1[1, :], label = 'Versicolor')
     plt.scatter(D2[0, :], D2[1, :], label = 'Virginica')
@@ -52,19 +53,20 @@ def plot_scatter(D, L, folder='/image'):
 if __name__ == '__main__':
     try:
         D, L = load_iris('../data/iris.csv')
+        
+        #### PCA ####
+        pca = PCA(2)
+        pca.fit(D)
+        DP = pca.trasform(D)
 
-        #compute mean
-        mu = D.mean(axis=1)
-        mu = mu.reshape((mu.size, 1))
-        #center the data
-        DC = D - mu
+        plot_scatter(DP, L, x="PC1", y='PC2', folder="./image/LDA2")
+        
+        #### LDA ####
+        lda = LDA(2)
+        lda.fit2(D, L)
+        DP = lda.trasform(D)
 
-        pca = PCA(n_component=6)
-        x = pca.fit(DC)
-        print(x)
-        DP = pca.trasform(DC)
-
-        plot_scatter(DP, L, "./image/PCA2")
+        plot_scatter(DP, L, x="LD1", y='LD2', folder="./image/LDA2")
 
     except Exception as e:
         logger.error(e)
