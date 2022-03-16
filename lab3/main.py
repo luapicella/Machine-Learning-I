@@ -46,7 +46,7 @@ def plot_scatter(D, L, x='',  y='', folder='/image'):
 
     plt.legend()
     plt.tight_layout() # Use with non-default font size to keep axis label inside the figure
-    plt.savefig(folder + '.pdf' )
+    plt.savefig(folder + '.jpg' )
     plt.show()
 
 
@@ -59,7 +59,7 @@ if __name__ == '__main__':
         pca.fit(D)
         DP = pca.trasform(D)
 
-        plot_scatter(DP, L, x="PC1", y='PC2', folder="./image/LDA2")
+        plot_scatter(DP, L, x="PC1", y='PC2', folder="./image/PCA2")
         
         #### LDA ####
         lda = LDA(2)
